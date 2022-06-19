@@ -7,12 +7,6 @@ page. It is not a recursive crawler.
 # ChangeLog
 # ---------
 #
-# 2.12a Started working on adding a functionality to parse .bib files. 
-#       The idea is to allow to read .bib files and rank the references by
-#       which has the highest number of citations.
-#       
-#       
-#
 # 2.11  The Scholar site seems to have become more picky about the
 #       number of results requested. The default of 20 in scholar.py
 #       could cause HTTP 503 responses. scholar.py now doesn't request
@@ -196,39 +190,6 @@ except ImportError:
         print('We need BeautifulSoup, sorry...')
         sys.exit(1)
 
-# Import bibtexparser
-try:
-    import bibtexparser
-    from bibtexparser.bparser import BibTexParser
-except ImportError:
-    print('We need bibtexparser, sorry...')
-    sys.exit(1)
-
-from pathlib import Path
-from bibtexparser.customization import convert_to_unicode
-import bibtexparser
-import subprocess
-import sys
-import re
-import argparse
-from argparse import RawTextHelpFormatter
-from pathlib import Path
-import calendar
-import logging
-from datetime import datetime
-from academic import __version__ as version
-from academic.import_assets import import_assets
-
-import bibtexparser
-from bibtexparser.bparser import BibTexParser
-from bibtexparser.bwriter import BibTexWriter
-from bibtexparser.bibdatabase import BibDatabase
-from bibtexparser.customization import convert_to_unicode
-
-import csv
-
-
-
 # Support unicode in both Python 2 and 3. In Python 3, unicode is str.
 if sys.version_info[0] == 3:
     unicode = str # pylint: disable-msg=W0622
@@ -289,7 +250,6 @@ class ScholarConf(object):
     # If set, we will use this file to read/save cookies to enable
     # cookie use across sessions.
     COOKIE_JAR_FILE = None
-    READ_BIB_FILE = None
 
 class ScholarUtils(object):
     """A wrapper for various utensils that come in handy."""
@@ -364,20 +324,13 @@ class ScholarArticle(object):
     def set_citation_data(self, citation_data):
         self.citation_data = citation_data
 
-    def as_txt(self, getIndex=False):
+    def as_txt(self):
         # Get items sorted in specified order:
         items = sorted(list(self.attrs.values()), key=lambda item: item[2])
         # Find largest label length:
         max_label_len = max([len(str(item[1])) for item in items])
         fmt = '%%%ds %%s' % max_label_len
         res = []
-        if getIndex:
-            for cheese in items:
-                if cheese[0] is not None:
-                    if cheese[1] == getIndex:
-                        return cheese[0]
-            return "0"
-        
         for item in items:
             if item[0] is not None:
                 res.append(fmt % (item[1], item[0]))
@@ -472,26 +425,18 @@ class ScholarArticleParser(object):
                     pass
 
     def _parse_article(self, div):
-
-        """ This parses articles"""
-
         self.article = ScholarArticle()
+
         for tag in div:
             if not hasattr(tag, 'name'):
                 continue
 
             if tag.name == 'div' and self._tag_has_class(tag, 'gs_rt') and \
-                    tag.h3 and tag.h3.a :
+                    tag.h3 and tag.h3.a:
                 self.article['title'] = ''.join(tag.h3.a.findAll(text=True))
                 self.article['url'] = self._path2url(tag.h3.a['href'])
                 if self.article['url'].endswith('.pdf'):
                     self.article['url_pdf'] = self.article['url']
-            
-            elif tag.name == 'div' and self._tag_has_class(tag, 'gs_rt') and \
-                    tag.h3 and  tag.h3.span:
-                self.article['title'] = ''.join(tag.h3.span.findAll(text=True))
-                self.article['url'] = 'citation only'
-            
 
             if tag.name == 'font':
                 for tag2 in tag:
@@ -658,8 +603,7 @@ class ScholarArticleParser120726(ScholarArticleParser):
                 except:
                     # Remove a few spans that have unneeded content (e.g. [CITATION])
                     for span in tag.h3.findAll(name='span'):
-                        if tag.find('span', {'class': 'gs_ctu'}):
-                            span.extract()
+                        span.clear()
                     self.article['title'] = ''.join(tag.h3.findAll(text=True))
 
                 if tag.find('div', {'class': 'gs_a'}):
@@ -1066,81 +1010,6 @@ class ScholarQuerier(object):
         ScholarUtils.log('info', 'settings applied')
         return True
 
-
-    def parse_bib(self, query):
-        # If we have a bib file, parse it:
-
-        if ScholarConf.READ_BIB_FILE and \
-           os.path.exists(ScholarConf.READ_BIB_FILE):
-            try:
-                self.import_bibtex(query)
-                ScholarUtils.log('info', 'loaded bib file')
-            except Exception as msg:
-                print(msg)
-                ScholarUtils.log('warn', 'could not load bib file: %s' % msg)
-        else: 
-            ScholarUtils.log('error', 'PathNOT exist could not load bib file: %s' % msg)
-        
-
-    def import_bibtex(self, query):
-        """Import publications from BibTeX file"""
-
-        bibtex = ScholarConf.READ_BIB_FILE
-        # Check BibTeX file exists.
-        if not Path(bibtex).is_file():
-            err = "Please check the path to your BibTeX file and re-run"
-            print(err)
-
-        # Load BibTeX file for parsing.
-        with open(bibtex, "r", encoding="utf-8") as bibtex_file:
-            parser = BibTexParser(common_strings=True)
-            parser.customization = convert_to_unicode
-            parser.ignore_nonstandard_types = False
-            bib_database = bibtexparser.load(bibtex_file, parser=parser)
-            for entry in bib_database.entries:
-                self.parse_bibtex_entry(entry, query) 
-        
-        self.build_csv(self.articles)
-
-
-
-    def parse_bibtex_entry(self, entry, query):
-        """Parse a bibtex entry and look for doi"""
-
-        if "doi" in entry:
-            print(f'doi: "{entry["doi"]}"')
-            #GOOGLE SEARCH
-            search = {entry["doi"]}
-
-            search = list(search)
-
-            query.set_words(os.path.normpath(search[0]) )
-            query.set_num_page_results("1")
-            self.send_query(query)
-
-    def build_csv(self, articles):
-        fieldnames = ['Title', 'Year', 'Citations', 'Doi']
-        rows = []
-        for art in articles:
-            row = []
-            for fieldname in fieldnames:
-                row.append(encode(art.as_txt(fieldname)))
-                print("{} :".format(fieldname))
-                print(encode(art.as_txt(fieldname)) + '\n')
-            # print("Citations: " + encode(art.as_txt('Citations')) + '\n')
-            # print("Title: " + encode(art.as_txt("Title")) + '\n')
-            rows.append(row)
-    
-        with open("output.csv", 'w+') as filecsv:
-            # write a row to the csv file
-            print("rows[0]")
-            writer = csv.writer(filecsv)
-            # except: 
-                # print("Whay did this fail?")
-            writer.writerow(fieldnames)
-            writer.writerows(rows)
-
-
     def send_query(self, query):
         """
         This method initiates a search query (a ScholarQuery instance)
@@ -1154,7 +1023,7 @@ class ScholarQuerier(object):
                                        err_msg='results retrieval failed')
         if html is None:
             return
-        
+
         self.parse(html)
 
     def get_citation_data(self, article):
@@ -1263,7 +1132,7 @@ def txt(querier, with_globals):
     for art in articles:
         print(encode(art.as_txt()) + '\n')
 
-def a_csv(querier, header=False, sep='|'):
+def csv(querier, header=False, sep='|'):
     articles = querier.articles
     for art in articles:
         result = art.as_csv(header=header, sep=sep)
@@ -1347,14 +1216,6 @@ scholar.py -c 5 -a "albert einstein" -t --none "quantum theory" --after 1970"""
                      help='Show version information')
     parser.add_option_group(group)
 
-    group = optparse.OptionGroup(parser, 'Read .bib')
-    group.add_option('--read-bib', metavar='FILE', default=None,
-                    help='File to use for bib files. If given, will read any existing citations.')
-    group.add_option('--provide-count', action='store_true', default=False,
-                    help='File to use for bib files. If given, will read any existing citations.')
-    parser.add_option_group(group)
-
-
     options, _ = parser.parse_args()
 
     # Show help if we have neither keyword search nor author name
@@ -1373,9 +1234,6 @@ scholar.py -c 5 -a "albert einstein" -t --none "quantum theory" --after 1970"""
 
     if options.cookie_file:
         ScholarConf.COOKIE_JAR_FILE = options.cookie_file
-
-    if options.read_bib:
-        ScholarConf.READ_BIB_FILE = options.read_bib
 
     # Sanity-check the options: if they include a cluster ID query, it
     # makes no sense to have search arguments:
@@ -1432,19 +1290,14 @@ scholar.py -c 5 -a "albert einstein" -t --none "quantum theory" --after 1970"""
         options.count = min(options.count, ScholarConf.MAX_PAGE_RESULTS)
         query.set_num_page_results(options.count)
 
-    if options.read_bib:
-        querier.parse_bib(query)
-    else:
-        querier.send_query(query)
+    querier.send_query(query)
 
     if options.csv:
-        a_csv(querier)
+        csv(querier)
     elif options.csv_header:
-        a_csv(querier, header=True)
+        csv(querier, header=True)
     elif options.citation is not None:
         citation_export(querier)
-    elif options.read_bib:
-        pass
     else:
         txt(querier, with_globals=options.txt_globals)
 

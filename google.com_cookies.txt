@@ -1,0 +1,41 @@
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+.chrome.google.com	TRUE	/	FALSE	1717954518	__utma	73091649.490534710.1652304941.1654790796.1654882513.5
+.chrome.google.com	TRUE	/	FALSE	1670650518	__utmz	73091649.1654882513.5.4.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided)
+.google.com	TRUE	/	TRUE	1718403646	CONSENT	PENDING+237
+.google.com	TRUE	/	TRUE	1671142848	NID	511=uTxkAQqRgTP2-0Ni76u-56fhhKzKpyhcYTR4gobNqCKPWhNK1PhenezLR3jVY5-Y-0i_V7JCZM3saXiG6NmEOVOazoYJJcquY-CulfFMqOPasVBG9bz1hasZ69a2SRQxN2261xSlRzWb4rjHydSvSH2pRAsteuEQ-UMTmSXLhZg
+.google.com	TRUE	/ads	TRUE	1685775600	AID	AJHaeXK69hlxjmZHZqUrgnBwvzV62YUJGk0XtUVCVDZ1qIBxvGrNhkfPTw
+.google.com	TRUE	/ads/measurement	TRUE	1656496197	TAID	AJHaeXJO__t8eJ6u7GpVtMts_j0tBA6KnYtPWd8Pxlw9_L0ltx0WQJnbiz0mcO1MWs4nEI5r-qFCRhzec-IJrmyaO2SCjYGkJ-HlLT5Wm9vjW3ojI927emrupsxI1Ftm3gLSAdI1v9Y
+.google.com	TRUE	/verify	TRUE	1671142848	SNID	APx-0P3gjBgyDiZs91wIvRcpsRpq1Tz2wFoXBqJi7aIFk4Rw1b-Eaw5L7tYuSNf_9Fz-QYKfFFzdj4D_pXGchD_Weldj0A
+.scholar.google.com	TRUE	/	TRUE	1718403654	GSP	A=pndAUw:CPTS=1655331654:LM=1655331654:S=3rJsM_WUyd6KWECk
+.support.google.com	TRUE	/	FALSE	1716035061	_ga	GA1.3.528548991.1652274060
+.translate.google.com	TRUE	/	FALSE	1716379797	_ga	GA1.3.954262678.1653070451
+accounts.google.com	FALSE	/	TRUE	1715338882	ACCOUNT_CHOOSER	AFx_qI5q8x76SB-6X9DnwawwQvjeW4831eTc5RKIzlA7bIQecEOD6hzezPpwb2oXQNqinc-c2r7E6O93drk93sP87EXFSIhR5vdAMsMCtC9Zni2JmP8__o2vJ6jbRMRAFEyWZ7FXijyeNeg2G_gyssTFYAangzMNio9slH-RJ1iuNBSbrJfMhf8TBvowYdVdAmA99GHkKashWvv2s08VNDVeB8iq7i-rJQ
+accounts.google.com	FALSE	/	TRUE	1718353436	LSID	o.calendar.google.com|o.chat.google.com|o.gds.google.com|o.mail.google.com|o.photos.google.com|s.GB|s.youtube:LAjezhQh_4n8FSDndOQVdWe2cO0IebsBwZx1xqPFKGBDy0DNMcdC-VmNKKnfuTcey1Z1ZQ.
+accounts.google.com	FALSE	/	TRUE	1683973434	LSOLH	_SVI_EJ3_uJKh3PcCGAMiP01BRURIZl9xajB0Vk5yamJVUkRtbG0zVGRhYVNBRmZBU3M4VGtUTDlkY3paaFVYWGY5RlNYdjYwZHU3SGNJVQ_:27540638:e28f
+accounts.google.com	FALSE	/	TRUE	1972637571	SMSV	ADHTe-AmLlgv2WNB625vz8VxS2zg_o3unuMyTBYVazUmdkAHet88RC0JX0gz6SZtS6uq-09hMQK-6lOzVk5lFxyKK5wRa2nb8iVoO8fkXf-XZyV-1CSRqYA
+accounts.google.com	FALSE	/	TRUE	1718353436	__Host-1PLSID	o.calendar.google.com|o.chat.google.com|o.gds.google.com|o.mail.google.com|o.photos.google.com|s.GB|s.youtube:LAjezhQh_4n8FSDndOQVdWe2cO0IebsBwZx1xqPFKGBDy0DNiKx32pZdht_ErBZcwCib1A.
+accounts.google.com	FALSE	/	TRUE	1718353436	__Host-3PLSID	o.calendar.google.com|o.chat.google.com|o.gds.google.com|o.mail.google.com|o.photos.google.com|s.GB|s.youtube:LAjezhQh_4n8FSDndOQVdWe2cO0IebsBwZx1xqPFKGBDy0DNpHih3x5oXH2OfYtJrpSrJw.
+accounts.google.com	FALSE	/	TRUE	1718403586	__Host-GAPS	1:4YGxX2qPtRBozSunxWFbgmt6jCR9poZfQpgd2PKY1ZDA06vPEZs-DekU5xVZcmRFDqBOKtsqvzQQbffhD86vsHOxSgO63Q:2P0que1W_KojmHSk
+calendar-pa.clients6.google.com	FALSE	/	TRUE	1656145438	COMPASS	feapi-server=CgAQ9bKmlQYaSAAJa4lXcED1YptvUo-jSPy6bdBEkl44gsmTs-zHlLnFssMguA1xi5wBRpKe5lL1Pyw_r0FvEN-1KLPdNAKKMs894jihUwRu2A
+calendar.google.com	FALSE	/	TRUE	1656153407	COMPASS	calendar=CgAQl_GmlQYaQAAJa4lXh5m80AF5I55QuNZ1q3nos6j6-puhEtOBXtLNUULVk0Anwrp_8d2xlwNUfZITvg6hHRFUatM733Jy4bU
+calendar.google.com	FALSE	/	TRUE	1718353436	OSID	LAjezlsqmnraykQRMougRnwC9-XRRupNG7KkGJERylwBA-1MpVr-4RlqrivCdlzjpvr8ig.
+calendar.google.com	FALSE	/	TRUE	1718353436	__Secure-OSID	LAjezlsqmnraykQRMougRnwC9-XRRupNG7KkGJERylwBA-1MWcb3qRV5X2dm_u8RDxogAw.
+chat.google.com	FALSE	/	TRUE	1717161612	OSID	KwjezuuDnk8SSH6E2awElaGYd-azqdJRMyUMbPqvjWffbJwXL0Lj6Hj5DHL7pwWzftTWFA.
+chat.google.com	FALSE	/	TRUE	1717161612	__Secure-OSID	KwjezuuDnk8SSH6E2awElaGYd-azqdJRMyUMbPqvjWffbJwXFYDZDS1O7Y_k0IkAOI3SVQ.
+contacts.google.com	FALSE	/	TRUE	1657313794	OTZ	6540297_52_56_123900_52_436380
+drive.google.com	FALSE	/drive	TRUE	1656145692	COMPASS	drive=CgAQrMymlQYaTgAJa4lXAgIDTOQyel6SX4SZf0i43jRcF8nk4gn1A2mxW5-PAtEzyyTJAZZNUX9btu2JbFaWkf3CkyPzd0oJk75dG2QR9xGKhrNqnZC4Vg
+mail.google.com	FALSE	/	TRUE	1717161607	OSID	KgjezoljbeMbtbPZ9Dz2uLPYXR07tshlQ9aICIu9qVOgeb_Yw2fNjp5Or6gQ8nZiWJrQ0Q.
+mail.google.com	FALSE	/	TRUE	1656681608	__Host-GMAIL_SCH_GML	1
+mail.google.com	FALSE	/	TRUE	1656681608	__Host-GMAIL_SCH_GMN	1
+mail.google.com	FALSE	/	TRUE	1656681608	__Host-GMAIL_SCH_GMS	1
+mail.google.com	FALSE	/	TRUE	1717161607	__Secure-OSID	KgjezoljbeMbtbPZ9Dz2uLPYXR07tshlQ9aICIu9qVOgeb_YymxY3z1qXDnagjMDq6A2YA.
+ogs.google.com	FALSE	/	TRUE	1657277801	OTZ	6539697_52_56_123900_52_436380
+photos.google.com	FALSE	/	TRUE	1715427341	OSID	JwjezminUjUttvgVekaQKTkV2zIrzzEXa2BU56MslWAd2nmpn415kuP-ujBCYlegX-gvMw.
+photos.google.com	FALSE	/	TRUE	1715427341	__Secure-OSID	JwjezminUjUttvgVekaQKTkV2zIrzzEXa2BU56MslWAd2nmppdUPzCKT7ctkaMd9KvKKEA.
+tasks-pa.clients6.google.com	FALSE	/	TRUE	1656145439	COMPASS	tasks-api=CgAQr8qmlQYaRwAJa4lX-vu-P5cw93z9EVaZdqHpPNaW1tSLTagKMJGVVYEaQ5jK414HDmXFtBQau5ZLtJh8Sc0KHD8JwkySI0EZieTkOdKhIAE
+translate.google.com	FALSE	/	TRUE	1655662451	OTZ	6512774_52_56_123900_52_436380
+www.google.com	FALSE	/	TRUE	1657366909	OTZ	6541182_52_56_123900_52_436380
+www.google.com	FALSE	/recaptcha	TRUE	1670883650	_GRECAPTCHA	09AKtayIUZBnLeK0Plxixw__oaYq14OjqpqGw4A-kX_HxsUWukA7Uqw1IqCtB4AQqb3QdHZVx7H59NFHH48n45F2A
