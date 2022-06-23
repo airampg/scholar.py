@@ -337,6 +337,7 @@ class ScholarArticle(object):
             'url_versions':  [None, 'Versions list',  8],
             'url_citation':  [None, 'Citation link',  9],
             'excerpt':       [None, 'Excerpt',       10],
+            'doi':           [None, 'Doi',           11],
         }
 
         # The citation data in one of the standard export formats,
@@ -361,6 +362,11 @@ class ScholarArticle(object):
         if key in self.attrs:
             del self.attrs[key]
 
+    def __repr__(self) -> str:
+
+        rep = "ScholarArticle Entry" + " title: " + self.attrs['title'][0]
+        return rep
+
     def set_citation_data(self, citation_data):
         self.citation_data = citation_data
 
@@ -376,6 +382,8 @@ class ScholarArticle(object):
                 if cheese[0] is not None:
                     if cheese[1] == getIndex:
                         return cheese[0]
+                    # elif getIndex == "doi":
+                    #     return "DOI"
             return "0"
         
         for item in items:
@@ -997,6 +1005,7 @@ class ScholarQuerier(object):
 
     def __init__(self):
         self.articles = []
+        self.articlesAll = []
         self.query = None
         self.cjar = MozillaCookieJar()
 
@@ -1100,7 +1109,7 @@ class ScholarQuerier(object):
             for entry in bib_database.entries:
                 self.parse_bibtex_entry(entry, query) 
         
-        self.build_csv(self.articles)
+        self.build_csv(self.articlesAll)
 
 
 
@@ -1110,35 +1119,41 @@ class ScholarQuerier(object):
         if "doi" in entry:
             print(f'doi: "{entry["doi"]}"')
             #GOOGLE SEARCH
-            search = {entry["doi"]}
+            doiToSearch = {entry["doi"]}
 
-            search = list(search)
+            doiToSearch = list(doiToSearch)
 
-            query.set_words(os.path.normpath(search[0]) )
+            query.set_words(os.path.normpath(doiToSearch[0]) )
             query.set_num_page_results("1")
             self.send_query(query)
 
     def build_csv(self, articles):
         fieldnames = ['Title', 'Year', 'Citations', 'Doi']
         rows = []
-        for art in articles:
-            row = []
-            for fieldname in fieldnames:
-                row.append(encode(art.as_txt(fieldname)))
-                print("{} :".format(fieldname))
-                print(encode(art.as_txt(fieldname)) + '\n')
-            # print("Citations: " + encode(art.as_txt('Citations')) + '\n')
-            # print("Title: " + encode(art.as_txt("Title")) + '\n')
-            rows.append(row)
+        print("Articles ")
+        print(articles)
+        artnum = len(articles)
+        for i in range(artnum):
+            for art in articles[i]:
+                print("art: ")
+                print(art)
+                print(type(art))
+                row = []
+                for fieldname in fieldnames:
+                    row.append(encode(art.as_txt(fieldname)))
+                    # print("{} :".format(fieldname))
+                    # print(encode(art.as_txt(fieldname)) + '\n')
+                rows.append(row)
     
-        with open("output.csv", 'w+') as filecsv:
+        with open("output.csv", 'w', newline='') as filecsv:
             # write a row to the csv file
-            print("rows[0]")
             writer = csv.writer(filecsv)
             # except: 
                 # print("Whay did this fail?")
             writer.writerow(fieldnames)
             writer.writerows(rows)
+            print("CSV Written. Rows: ")
+        print(rows)
 
 
     def send_query(self, query):
@@ -1153,9 +1168,11 @@ class ScholarQuerier(object):
                                        log_msg='dump of query response HTML',
                                        err_msg='results retrieval failed')
         if html is None:
+            print("Empty HTML returned")
             return
         
         self.parse(html)
+        self.articlesAll.append(self.articles)
 
     def get_citation_data(self, article):
         """
